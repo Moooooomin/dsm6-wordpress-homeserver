@@ -1,0 +1,6 @@
+.env
+php8-docker/logs/
+php8-docker/backup/
+php8-docker/rolled-back
+cloudflare-realip/realip.log
+.DS_Store

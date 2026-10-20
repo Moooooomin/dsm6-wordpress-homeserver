@@ -1,0 +1,37 @@
+# PHP 8.3 for an existing WordPress folder on Synology DSM 6.2 (whose Web Station stops at PHP 7.4).
+# DSM nginx keeps TLS and HTTP->HTTPS; only its proxy target changes (see wp-php8.sh).
+# Values come from .env (see .env.example).
+version: "3.7"
+
+services:
+  web:
+    image: wordpress:php8.3-apache
+    container_name: wp-php83
+    restart: unless-stopped
+    # Skip the image's WordPress copy/setup step; serve the files already on the NAS.
+    entrypoint: ["docker-php-entrypoint"]
+    command: ["apache2-foreground"]
+    # Run everything as the web user so file ownership stays the same and nothing runs as root.
+    user: "${WEB_UID}:${WEB_GID}"
+    environment:
+      WP_DIR: ${WP_DIR}
+      APACHE_RUN_DIR: /tmp/apache2/run
+      APACHE_LOCK_DIR: /tmp/apache2/lock
+      APACHE_PID_FILE: /tmp/apache2/apache2.pid
+      TZ: ${TZ}
+    ports:
+      - "127.0.0.1:${HOST_PORT}:8080"
+    volumes:
+      # Same path inside and outside: plugins that saved absolute paths keep working.
+      - ${WP_DIR}:${WP_DIR}
+      - ${MYSQL_SOCKET_DIR}:${MYSQL_SOCKET_DIR}
+      - ./php/zz-custom.ini:/usr/local/etc/php/conf.d/zz-custom.ini:ro
+      - ./apache/ports.conf:/etc/apache2/ports.conf:ro
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf:ro
+      - ./apache/remoteip.conf:/etc/apache2/conf-available/remoteip.conf:ro
+      - ./logs:/var/log/wp-php8
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
