@@ -3,6 +3,8 @@
 DSM 6.2's Package Center offers PHP up to 7.4. This runs the **same WordPress folder and database** in the
 `wordpress:php8.3-apache` image and points DSM nginx at it. Web Station stays installed as the fallback.
 
+Full write-up with the problems I hit: [PHP 8 on Synology DSM 6.2](https://lavient.life/en/dsm6-wordpress-php8-docker/) ([Korean](https://lavient.life/synology-dsm6-php8-docker/)).
+
 ```
 visitor → DSM nginx (HTTPS, certificate) ─┬→ 127.0.0.1:915   Web Station Apache + PHP 7.4  (fallback)
                                           └→ 127.0.0.1:8083  container Apache + PHP 8.3     (switched)

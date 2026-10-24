@@ -16,7 +16,11 @@ They come from the setup behind [lavient.life](https://lavient.life), a personal
 - Both shell scripts need DSM **Task Scheduler** entries (root, every 10 minutes) running their `ensure` command, because DSM rewrites the files they touch.
 - Settings live at the top of each script (and in `.env` for Docker). Replace `example.com`, paths and the NAS IP with yours.
 
-## Write-ups (Korean)
+## Write-ups
+
+- English: [PHP 8 on Synology DSM 6.2 – Run WordPress on PHP 8.3 with Docker](https://lavient.life/en/dsm6-wordpress-php8-docker/)
+
+In Korean:
 
 - [DSM 6.2에서 PHP 8 쓰기 – 도커로 워드프레스 PHP 8.3 전환](https://lavient.life/synology-dsm6-php8-docker/)
 - [집 서버 보안 설정 – Cloudflare로 IP 숨기고 공격 막기](https://lavient.life/home-server-cloudflare-security/)
